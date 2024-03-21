@@ -1,6 +1,60 @@
 #include<stdio.h>
 void printsort(int arr[],int size);
-void selectionsort(int arr[],int size);
+void quicksort(int l,int h,int arr[]);
+int partition(int l,int h,int arr[]);
+void swap(int *a, int *b);
+
+
+int main(){
+    int arr[]={10,16,8,12,15,6,3,9,5};
+
+    int size=sizeof(arr) / sizeof(arr[0]);
+
+    int l=0;
+    int h=size;
+
+    printf("the original array is ");
+    printsort(arr,size);
+
+    
+    quicksort(l,h,arr);
+     printf("The final sorted array is: ");
+    printsort(arr, size);
+}
+
+
+int partition(int l,int h,int arr[]){
+    int pivot=arr[l];
+    int i=l;
+    int j=h;
+    while(i<j)
+    {
+        do
+        {
+            i++;
+        } while (arr[i]<=pivot);
+        do
+        {
+            j--;
+        } while (arr[j]>pivot);
+        
+        swap(&arr[i],&arr[j]);
+// used to swap in between elements of pivot
+    }
+    swap(&arr[l],&arr[j]); // this is to swap the pivot element after one completeion of one round
+ return j;
+}
+
+
+void quicksort(int l,int h,int arr[]){
+	
+	int j=partition(l,h,arr);
+    quicksort( l,j,arr);
+     quicksort( j+1,h,arr);
+
+   
+}
+
 
 void printsort(int arr[],int size){
 	int m;
@@ -9,56 +63,13 @@ for(m=0;m<size;m++){
 }
 printf("\n");
 }
-void selectionsort(int arr[],int size){
-	int i,j;
-
-    int min;
-    int k;
-	
-for (i = 0; i < size; i++)
-{min=arr[i];
-  printf("loop= %d \n",i);
-    k=i;
-   for (j = i+1; j < size-i; j++)
-   {
-    if (min>arr[j])
-    {
-           min = arr[j];
-                k = j;
-    }
-     
-   }
-   printf("min=%d\n",min);
-    if(k!=i){
-	
-    swap(&arr[i],&arr[k]);
-}else{
-	printf("no need to swap\n");
-	
-}
-    printf("the sorting of elements after pass %d is:\n", i + 1);
-    printsort(arr,size);
-   
-}
 
 
-}
-void swap(int*a,int* b){
 
-  int temp = *b;
+void swap(int *a, int *b) {
+    int temp = *b;
     *b = *a;
     *a = temp;
 }
 
-int main(){
-    int arr[]={3,5,1,6,2,8};
-    int size=sizeof(arr) / sizeof(arr[0]);
-    printf("the original array is ");
-    printsort(arr,size);
 
-    printf("the sorted elements are \n");
-    selectionsort(arr,size);
-    
-
-
-}
