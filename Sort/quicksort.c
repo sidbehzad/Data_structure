@@ -1,75 +1,65 @@
 #include<stdio.h>
-void printsort(int arr[],int size);
-void quicksort(int l,int h,int arr[]);
-int partition(int l,int h,int arr[]);
+
+void printsort(int arr[], int size);
+void quicksort(int l, int h, int arr[]);
+int partition(int l, int h, int arr[]);
 void swap(int *a, int *b);
 
+int main() {
+    int arr[] = {10, 16, 8, 12, 15, 6, 3, 9, 5};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    int l = 0;
+    int h = size - 1; // Set h to size - 1
 
-int main(){
-    int arr[]={10,16,8,12,15,6,3,9,5};
-
-    int size=sizeof(arr) / sizeof(arr[0]);
-
-    int l=0;
-    int h=size;
-
-    printf("the original array is ");
-    printsort(arr,size);
-
-    
-    quicksort(l,h,arr);
-     printf("The final sorted array is: ");
+    printf("The original array is: ");
     printsort(arr, size);
+
+    quicksort(l, h, arr);
+
+    printf("The final sorted array is: ");
+    printsort(arr, size);
+
+    return 0;
 }
 
+int partition(int l, int h, int arr[]) {
+    int pivot = arr[l];
+    int i = l;
+    int j = h;
 
-int partition(int l,int h,int arr[]){
-    int pivot=arr[l];
-    int i=l;
-    int j=h;
-    while(i<j)
-    {
-        do
-        {
+    while (i <= j) { // Use i <= j instead of i < j
+        while (arr[i] <= pivot && i <= h) {
             i++;
-        } while (arr[i]<=pivot);
-        do
-        {
+        }
+        while (arr[j] > pivot && j >= l) {
             j--;
-        } while (arr[j]>pivot);
-        
-        swap(&arr[i],&arr[j]);
-// used to swap in between elements of pivot
+        }
+        if (i < j) {
+            swap(&arr[i], &arr[j]);
+        }
     }
-    swap(&arr[l],&arr[j]); // this is to swap the pivot element after one completeion of one round
- return j;
+    swap(&arr[l], &arr[j]);
+
+    return j;
 }
 
-
-void quicksort(int l,int h,int arr[]){
-	
-	int j=partition(l,h,arr);
-    quicksort( l,j,arr);
-     quicksort( j+1,h,arr);
-
-   
+void quicksort(int l, int h, int arr[]) {
+    if (l < h) {
+        int j = partition(l, h, arr);
+        quicksort(l, j - 1, arr); // Use j - 1 instead of j
+        quicksort(j + 1, h, arr);
+    }
 }
 
-
-void printsort(int arr[],int size){
-	int m;
-for(m=0;m<size;m++){
-    printf("%d,",arr[m]);
+void printsort(int arr[], int size) {
+    for (int m = 0; m < size; m++) {
+        printf("%d, ", arr[m]);
+    }
+    printf("\n");
 }
-printf("\n");
-}
-
-
 
 void swap(int *a, int *b) {
     int temp = *b;
     *b = *a;
     *a = temp;
 }
-
-
